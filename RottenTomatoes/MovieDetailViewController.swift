@@ -10,26 +10,19 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
 
+    @IBOutlet weak var posterBackground: UIImageView!
+    
+    var movie : NSDictionary = [NSObject: AnyObject]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set low-res photo
+        var posters = movie["posters"] as NSDictionary
+        var thumbnailURL = posters["thumbnail"] as String
+        posterBackground.setImageWithURL(NSURL(string: thumbnailURL))
 
-        // Do any additional setup after loading the view.
+//        http://api.rottentomatoes.com/api/public/v1.0/movies/770672122.json?apikey=[your_api_key]
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -13,7 +13,6 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var synopsisLabel: UILabel!
     
-    
     @IBOutlet weak var thumbnail: UIImageView!
     
     override func awakeFromNib() {

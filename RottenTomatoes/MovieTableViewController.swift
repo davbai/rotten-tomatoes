@@ -15,18 +15,22 @@ class MovieTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let loadingView = GKPopLoadingView()
+        loadingView.show(true, withTitle: "Loading")
+        
         self.navigationItem.title = "Movies"
         
         var path = NSBundle.mainBundle().pathForResource("Configuration", ofType: "plist")
         var config = NSDictionary(contentsOfFile: path!)
-        
-        let rottenTomatoesURLString = "http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json?apikey=" + (config["RottenTomatoesAPI"] as String)
+        let rottenTomatoesURLString = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=" + (config["RottenTomatoesAPI"] as String)
         let request = NSMutableURLRequest(URL: NSURL.URLWithString(rottenTomatoesURLString))
+        
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response, data, error) in
             var errorValue: NSError? = nil
             let dictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &errorValue) as NSDictionary
             self.movies = dictionary["movies"] as [NSDictionary]
             self.tableView.reloadData()
+            loadingView.show(false, withTitle: "")
         })
     }
 
@@ -60,14 +64,16 @@ class MovieTableViewController: UITableViewController {
         return cell
     }
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "movieSegue" {
+            let movieDetailVC = segue.destinationViewController as MovieDetailViewController
+            let selectedIndexPath = self.tableView.indexPathForCell(sender as UITableViewCell)
+            movieDetailVC.movie = movies[selectedIndexPath!.row]
+        }
     }
-    */
+
 
 }

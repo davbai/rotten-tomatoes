@@ -20,11 +20,17 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - GKPopLoadingView (0.0.2):
+    - pop
+  - pop (1.0.6)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - GKPopLoadingView
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  GKPopLoadingView: 75e8f144721f2e51d6b822036070111c05e4960b
+  pop: e518794da38942c05255eb64b36d894e70cb4f00
 
 COCOAPODS: 0.33.1
