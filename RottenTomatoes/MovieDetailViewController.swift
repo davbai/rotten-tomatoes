@@ -14,10 +14,13 @@ class MovieDetailViewController: UIViewController {
     
     var movie : NSDictionary = [NSObject: AnyObject]()
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var detailsView: UIView!
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var reviewLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var synopsis: UITextView!
+    @IBOutlet weak var synopsis: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +43,10 @@ class MovieDetailViewController: UIViewController {
         ratingLabel.text = movie["mpaa_rating"] as? String
         
         synopsis.text = movie["synopsis"] as? String
+        synopsis.sizeToFit()
+        detailsView.frame.size.height = synopsis.frame.height + titleLabel.frame.height + reviewLabel.frame.height + ratingLabel.frame.height + 16 // padding
+        
+        scrollView.contentSize = CGSize(width: detailsView.frame.width, height: detailsView.frame.height + 252)
         
         let fullResURL = thumbnailURL.stringByReplacingOccurrencesOfString("tmb", withString: "ori")
         posterBackground.setImageWithURL(NSURL(string: fullResURL))
