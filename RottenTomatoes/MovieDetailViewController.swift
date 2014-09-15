@@ -22,11 +22,14 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = movie["title"] as? String
+        
         // Set low-res photo
         var posters = movie["posters"] as NSDictionary
-        var thumbnailURL = posters["thumbnail"] as String
+        let thumbnailURL = posters["thumbnail"] as String
         posterBackground.setImageWithURL(NSURL(string: thumbnailURL))
 
+        // Set movie details
         titleLabel.text = movie["title"] as? String
         
         var ratings = movie["ratings"] as NSDictionary
@@ -37,6 +40,10 @@ class MovieDetailViewController: UIViewController {
         ratingLabel.text = movie["mpaa_rating"] as? String
         
         synopsis.text = movie["synopsis"] as? String
+        
+        let fullResURL = thumbnailURL.stringByReplacingOccurrencesOfString("tmb", withString: "ori")
+        posterBackground.setImageWithURL(NSURL(string: fullResURL))
+        
     }
 
 }
