@@ -12,11 +12,24 @@ class MovieTableViewController: UITableViewController {
 
     var movies : [NSDictionary] = []
     
+    var networkErrorView : UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Movies"
+        
+        // Set up network error view
+        networkErrorView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
+        networkErrorView.backgroundColor = UIColor.lightGrayColor()
+        
+        var errorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
+        errorLabel.text = "Network Error"
+        errorLabel.textAlignment = NSTextAlignment.Center
+        
+        networkErrorView.addSubview(errorLabel)
 
+        // Support for pull-to-refresh
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: Selector("refresh"), forControlEvents: UIControlEvents.ValueChanged)
         
@@ -33,10 +46,16 @@ class MovieTableViewController: UITableViewController {
         let request = NSMutableURLRequest(URL: NSURL.URLWithString(rottenTomatoesURLString))
         
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response, data, error) in
-            var errorValue: NSError? = nil
-            let dictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &errorValue) as NSDictionary
-            self.movies = dictionary["movies"] as [NSDictionary]
-            self.tableView.reloadData()
+            if error == nil {
+                var errorValue: NSError? = nil
+                let dictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &errorValue) as NSDictionary
+                self.movies = dictionary["movies"] as [NSDictionary]
+                self.tableView.reloadData()
+                self.networkErrorView.removeFromSuperview()
+            } else {
+                self.view.addSubview(self.networkErrorView)
+            }
+            
             loadingView.show(false, withTitle: "")
             self.refreshControl?.endRefreshing()
         })
