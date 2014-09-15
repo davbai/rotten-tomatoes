@@ -15,10 +15,17 @@ class MovieTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "Movies"
+
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.addTarget(self, action: Selector("refresh"), forControlEvents: UIControlEvents.ValueChanged)
+        
+        refresh()
+    }
+
+    func refresh() {
         let loadingView = GKPopLoadingView()
         loadingView.show(true, withTitle: "Loading")
-        
-        self.navigationItem.title = "Movies"
         
         var path = NSBundle.mainBundle().pathForResource("Configuration", ofType: "plist")
         var config = NSDictionary(contentsOfFile: path!)
@@ -31,6 +38,7 @@ class MovieTableViewController: UITableViewController {
             self.movies = dictionary["movies"] as [NSDictionary]
             self.tableView.reloadData()
             loadingView.show(false, withTitle: "")
+            self.refreshControl?.endRefreshing()
         })
     }
 
