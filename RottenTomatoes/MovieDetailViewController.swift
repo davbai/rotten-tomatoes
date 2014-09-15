@@ -14,6 +14,11 @@ class MovieDetailViewController: UIViewController {
     
     var movie : NSDictionary = [NSObject: AnyObject]()
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var reviewLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var synopsis: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +27,16 @@ class MovieDetailViewController: UIViewController {
         var thumbnailURL = posters["thumbnail"] as String
         posterBackground.setImageWithURL(NSURL(string: thumbnailURL))
 
-//        http://api.rottentomatoes.com/api/public/v1.0/movies/770672122.json?apikey=[your_api_key]
+        titleLabel.text = movie["title"] as? String
+        
+        var ratings = movie["ratings"] as NSDictionary
+        var criticsScore = ratings["critics_score"] as NSInteger
+        var audienceScore = ratings["audience_score"] as NSInteger
+        reviewLabel.text = "Critics Score: " + String(criticsScore) + " Audience Score: " + String(audienceScore)
+        
+        ratingLabel.text = movie["mpaa_rating"] as? String
+        
+        synopsis.text = movie["synopsis"] as? String
     }
 
 }
