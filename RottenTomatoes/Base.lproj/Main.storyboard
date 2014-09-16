@@ -12,6 +12,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="Qpd-MN-Lul">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -60,6 +61,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Jf4-aU-NpK"/>
+                    <connections>
+                        <outlet property="searchBar" destination="Qpd-MN-Lul" id="bFC-sm-rbF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rtT-8o-w3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

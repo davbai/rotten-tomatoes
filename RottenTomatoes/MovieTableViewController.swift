@@ -8,19 +8,27 @@
 
 import UIKit
 
-class MovieTableViewController: UITableViewController {
+class MovieTableViewController: UITableViewController, UISearchBarDelegate {
 
     var movies : [NSDictionary] = []
+    var filteredMovies : [NSDictionary] = []
     
     var networkErrorView : UIView!
+    
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Movies"
         
+        self.searchBar.delegate = self
+        
         // Set up colors
         self.tableView.backgroundColor = UIColor.blackColor()
+        self.searchBar.placeholder = "Movie Title.."
+        self.searchBar.backgroundColor = UIColor.lightGrayColor()
+        self.searchBar.barStyle = UIBarStyle.Black
         
         // Set up network error view
         networkErrorView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
@@ -63,6 +71,13 @@ class MovieTableViewController: UITableViewController {
             self.refreshControl?.endRefreshing()
         })
     }
+    
+    func filterMoviesForSearch(searchString: String) {
+        self.filteredMovies = self.movies.filter({(movie : NSDictionary) -> Bool in
+            let stringMatch = movie["title"]?.rangeOfString(searchString)
+            return stringMatch?.length > 0
+        })
+    }
 
     // MARK: - Table view data source
 
@@ -71,14 +86,21 @@ class MovieTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if filteredMovies.count > 0 {
+            return filteredMovies.count
+        }
         return movies.count
     }
 
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("movieCell", forIndexPath: indexPath) as MovieTableViewCell
         
-        var movie = movies[indexPath.row]
+        var movie : NSDictionary
+        if filteredMovies.count > 0 {
+            movie = filteredMovies[indexPath.row]
+        } else {
+            movie = movies[indexPath.row]
+        }
         
         cell.titleLabel.text = movie["title"] as? String
         
@@ -104,6 +126,13 @@ class MovieTableViewController: UITableViewController {
             movieDetailVC.movie = movies[selectedIndexPath!.row]
         }
     }
-
+    
+    // MARK: Search
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.filteredMovies = []
+        self.filterMoviesForSearch(searchText)
+        self.tableView.reloadData()
+    }
 
 }
