@@ -19,6 +19,9 @@ class MovieTableViewController: UITableViewController {
         
         self.navigationItem.title = "Movies"
         
+        // Set up colors
+        self.tableView.backgroundColor = UIColor.blackColor()
+        
         // Set up network error view
         networkErrorView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
         networkErrorView.backgroundColor = UIColor.lightGrayColor()
