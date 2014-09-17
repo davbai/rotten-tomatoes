@@ -44,7 +44,7 @@ class MovieDetailViewController: UIViewController {
         
         synopsis.text = movie["synopsis"] as? String
         synopsis.sizeToFit()
-        detailsView.frame.size.height = synopsis.frame.height + titleLabel.frame.height + reviewLabel.frame.height + ratingLabel.frame.height + 16 // padding
+        detailsView.frame.size.height = synopsis.frame.height + titleLabel.frame.height + reviewLabel.frame.height + ratingLabel.frame.height + 16 /* padding */ + 147 /* to clear tab bar */
         
         scrollView.contentSize = CGSize(width: detailsView.frame.width, height: detailsView.frame.height + 252)
         

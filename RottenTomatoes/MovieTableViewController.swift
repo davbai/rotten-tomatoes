@@ -30,6 +30,8 @@ class MovieTableViewController: UITableViewController, UISearchBarDelegate {
         self.searchBar.backgroundColor = UIColor.lightGrayColor()
         self.searchBar.barStyle = UIBarStyle.Black
         
+        self.parentViewController?.tabBarController?.tabBar.tintColor = UIColor(red: 255, green: 202, blue: 0, alpha: 1)
+        
         // Set up network error view
         networkErrorView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
         networkErrorView.backgroundColor = UIColor.lightGrayColor()
@@ -53,7 +55,21 @@ class MovieTableViewController: UITableViewController, UISearchBarDelegate {
         
         var path = NSBundle.mainBundle().pathForResource("Configuration", ofType: "plist")
         var config = NSDictionary(contentsOfFile: path!)
-        let rottenTomatoesURLString = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=" + (config["RottenTomatoesAPI"] as String)
+        
+        var content : String
+        var selectedIndex = self.navigationController?.tabBarController?.selectedIndex
+        switch selectedIndex! {
+            case 0:
+                content = "movies/box_office"
+            case 1:
+                content = "movies/upcoming"
+            case 2:
+                content = "dvds/top_rentals"
+            default:
+                content = "movies/box_office"
+        }
+        
+        let rottenTomatoesURLString = "http://api.rottentomatoes.com/api/public/v1.0/lists/" + content + ".json?apikey=" + (config["RottenTomatoesAPI"] as String)
         let request = NSMutableURLRequest(URL: NSURL.URLWithString(rottenTomatoesURLString))
         
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{ (response, data, error) in
