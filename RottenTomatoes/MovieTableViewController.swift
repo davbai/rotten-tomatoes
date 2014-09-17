@@ -112,7 +112,6 @@ class MovieTableViewController: UITableViewController, UISearchBarDelegate {
         var thumbnailURL = posters["thumbnail"] as String
         
         cell.thumbnail.setImageWithURL(NSURL(string: thumbnailURL))
-
         return cell
     }
 
@@ -123,7 +122,12 @@ class MovieTableViewController: UITableViewController, UISearchBarDelegate {
         if segue.identifier == "movieSegue" {
             let movieDetailVC = segue.destinationViewController as MovieDetailViewController
             let selectedIndexPath = self.tableView.indexPathForCell(sender as UITableViewCell)
-            movieDetailVC.movie = movies[selectedIndexPath!.row]
+            
+            if filteredMovies.count > 0 {
+                movieDetailVC.movie = filteredMovies[selectedIndexPath!.row]
+            } else {
+                movieDetailVC.movie = movies[selectedIndexPath!.row]
+            }
         }
     }
     
