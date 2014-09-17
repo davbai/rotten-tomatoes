@@ -4,7 +4,7 @@ This is an iOS demo application for displaying the latest box office, upcoming m
 
 Time: ~8-10 hours
 
-User Stories/Features:
+#### User Stories/Features:
 
 * [x] Required: User can view a list of movies from Rotten Tomatoes. Poster images must be loading asynchronously.
 * [x] Required: User can view movie details by tapping on a cell
@@ -16,7 +16,20 @@ User Stories/Features:
 * [x] Optional: Add a tab bar for Box Office and DVD.
 * [x] Optional: Add a search bar.
 
-Demo:
+#### Installation/Running:
+```
+# install dependencies
+pod install
+
+# add Rotten Tomatoes API key
+cd RottenTomatoes
+mv Configuration.plist.example Configuration.plist
+// edit plist file to include your API key where it says 'ENTER API KEY HERE'
+
+# Open RottenTomatoes.xcworkspace in Xcode
+```
+
+#### Demo:
 
 ![Video Walkthrough](RottenTomatoes.gif)
 
